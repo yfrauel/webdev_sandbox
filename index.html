@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- <link rel="stylesheet" type="text/css" href="./style.css" /> -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/blitzer/jquery-ui.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <style>
+        .ui-datepicker {
+            font-size: 150%;
+        }
+
+        #schedule {
+            font-size: 150%;
+        }
+
+        #schedule table {
+            width: 100%;
+        }
+
+        .time {
+            width: 20%;
+        }
+
+        .slot:hover {
+            background: #8888FF;
+        }
+
+    </style>
+
+    <div id="calendar" class="col-md-4"></div>
+    <div id="schedule" class="col-md-4" class="ui-widget">
+        <table class="ui-widget-content">
+            <tr>
+                <td class="time">8</td>
+                <td class="slot"></td>
+            </tr>
+            <tr>
+                <td class="time">9</td>
+                <td class="slot"></td>
+            </tr>
+            <tr>
+                <td class="time">10</td>
+                <td class="slot"></td>
+            </tr>
+            <tr>
+                <td class="time">11</td>
+                <td class="slot"></td>
+            </tr>
+            <tr>
+                <td class="time">12</td>
+                <td class="slot"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="selected_slot"></div>
+
+    <script type="text/javascript">
+
+        var slots = ['', 'Yann', '', '', ''];
+
+        function display_slots() {
+            for (var i=0; i<slots.length; i++) {
+                var table = $('#schedule table');
+                var rows = $('tr', table);
+                var row = rows.eq(i);
+                var cols = $('td', row);
+                var col = cols.eq(1);
+                if (!slots[i]) {
+                    col.css('background', '#AAAAFF'); 
+                } else {
+                    col.css('background', '#5555FF'); 
+                }
+            }
+        }
+
+        function slot_selection() {
+            var selected_date = $('#calendar').datepicker("getDate")
+            var selected_slot = $(this).parent().index();
+            slots[selected_slot] = 'Yann';
+            display_slots();
+            $('#selected_slot').text(slots);
+        }
+
+        $(function() {
+            $('#calendar').datepicker();
+            $('.slot').click(slot_selection);
+            display_slots();
+        });
+    </script>
+
+</body>
+</html>
+
