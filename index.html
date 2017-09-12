@@ -30,7 +30,8 @@
         }
 
         .slot:hover {
-            background: #8888FF;
+            border-style: solid;
+            border-color: green;
         }
 
     </style>
@@ -65,35 +66,55 @@
 
     <script type="text/javascript">
 
-        var slots = ['', 'Yann', '', '', ''];
+        var slots = {};
 
         function display_slots() {
-            for (var i=0; i<slots.length; i++) {
+            var selected_date = $('#calendar').datepicker("getDate");
+            day_slots = slots[selected_date];
+
+            for (var i=0; i<day_slots.length; i++) {
                 var table = $('#schedule table');
                 var rows = $('tr', table);
                 var row = rows.eq(i);
                 var cols = $('td', row);
                 var col = cols.eq(1);
-                if (!slots[i]) {
+                if (day_slots[i]=='') {
                     col.css('background', '#AAAAFF'); 
+                } else if (day_slots[i]=='Yann') {
+                    col.css('background', '#30A030'); 
                 } else {
                     col.css('background', '#5555FF'); 
                 }
             }
         }
 
-        function slot_selection() {
-            var selected_date = $('#calendar').datepicker("getDate")
+        function on_click_slot() {
+            var selected_date = $('#calendar').datepicker("getDate");
+            day_slots = slots[selected_date];
             var selected_slot = $(this).parent().index();
-            slots[selected_slot] = 'Yann';
+
+            if (day_slots[selected_slot]=='') {
+                day_slots[selected_slot] = 'Yann';
+            } else if (day_slots[selected_slot]=='Yann') {
+                day_slots[selected_slot] = '';
+            }
+
             display_slots();
-            $('#selected_slot').text(slots);
+            $('#selected_slot').text(day_slots);
+        }
+
+        function change_date() {
+            var selected_date = $('#calendar').datepicker("getDate");
+            if (!(selected_date in slots)) {
+                slots[selected_date] = ['', 'Betina', '', '', ''];
+            }
+            display_slots();
         }
 
         $(function() {
-            $('#calendar').datepicker();
-            $('.slot').click(slot_selection);
-            display_slots();
+            $('#calendar').datepicker({onSelect: change_date});
+            $('.slot').click(on_click_slot);
+            change_date();
         });
     </script>
 
