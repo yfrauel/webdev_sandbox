@@ -101,6 +101,7 @@
 
             display_slots();
             $('#selected_slot').text(day_slots);
+            $.ajax({url: 'book_slot', data: selected_date.toString()});
         }
 
         function change_date() {
